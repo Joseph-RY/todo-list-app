@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTodos } from "@/app/redux-toolkit/syncTodoSlice";
 
 function CustomDialog({ open, onOpenChange, children }) {
@@ -32,26 +32,37 @@ export default function AddTask() {
   const [open, setOpen] = useState(false);
   const [addName, setAddName] = useState("");
   const [addDescription, setAddDescription] = useState("");
-  const [addImage, setAddImage] = useState([]);
+  const [imageLinks, setImageLinks] = useState([]);
+  const [newImageLink, setNewImageLink] = useState("");
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.syncTodos.data);
 
   const handleAdd = (e) => {
     e.preventDefault();
-    const newUser = new FormData();
-    newUser.append("Name", addName);
-    newUser.append("Description", addDescription);
-    for (let i = 0; i < addImage.length; i++) {
-      newUser.append("Images", addImage[i]);
-    }
-    dispatch(addTodos(newUser));
+
+    if (!addName.trim() || !addDescription.trim()) return;
+
+    dispatch(
+      addTodos({
+        id: data.length + 3001,
+        name: addName,
+        description: addDescription,
+        images: imageLinks,
+      })
+    );
+
     setAddName("");
     setAddDescription("");
-    setAddImage([]);
+    setImageLinks([]);
+    setNewImageLink("");
     setOpen(false);
   };
 
-  const handleFileChange = (e) => {
-    setAddImage(Array.from(e.target.files));
+  const handleAddImageLink = () => {
+    if (newImageLink.trim()) {
+      setImageLinks((prev) => [...prev, { id: prev.length, imageName: newImageLink.trim() }]);
+      setNewImageLink("");
+    }
   };
 
   return (
@@ -74,9 +85,22 @@ export default function AddTask() {
               <Input id="description" type="text" value={addDescription} onChange={(e) => setAddDescription(e.target.value)} required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="images">Images</Label>
-              <Input id="images" type="file" multiple accept="image/*" onChange={handleFileChange} />
+              <Label htmlFor="images">Image Links</Label>
+              <div className="flex gap-2">
+                <Input id="images" type="text" placeholder="https://example.com/image.jpg" value={newImageLink} onChange={(e) => setNewImageLink(e.target.value)} />
+                <Button type="button" onClick={handleAddImageLink}>
+                  Add
+                </Button>
+              </div>
+              {imageLinks.length > 0 && (
+                <ul className="list-disc pl-5 text-sm text-muted-foreground mt-2">
+                  {imageLinks.map((linkObj, index) => (
+                    <li key={index}>{linkObj.imageName}</li>
+                  ))}
+                </ul>
+              )}
             </div>
+
             <div className="flex justify-end gap-2 mt-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel

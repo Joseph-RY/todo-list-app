@@ -3,11 +3,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTodos, completeTodos } from "../syncTodoSlice";
-import { API_URL } from "@/config/api";
 import { Button } from "@/components/ui/button";
 import AddTask from "@/app/redux-toolkit/sync-todo/add-task/add-task";
 import EditTask from "@/app/redux-toolkit/sync-todo/edit-task/edit-task";
 import GetTask from "@/app/redux-toolkit/sync-todo/get-task/get-task";
+import Image from "next/image";
 
 const SyncTodo = () => {
   const data = useSelector((state) => state.syncTodos.data);
@@ -37,7 +37,7 @@ const SyncTodo = () => {
               <tr key={e.id} className="even:bg-muted/30 hover:bg-muted/40 transition-colors">
                 <td className="px-4 py-3 border-t border-border">№ {e.id}</td>
                 <td className="px-4 py-3 border-t border-border">
-                  <img src={`${e.images[0]?.imageName}`} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
+                  <Image src={e.images[0].imageName} alt="TodosImage" width={72} height={56} className="object-cover rounded-md shadow-sm" />
                 </td>
                 <td className="px-4 py-3 border-t border-border">{e.name}</td>
                 <td className="px-4 py-3 border-t border-border text-muted-foreground">{e.description}</td>
@@ -77,7 +77,7 @@ const SyncTodo = () => {
             </div>
 
             <div>
-              <img src={`${e.images[0]?.imageName}`} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
+              <img src="@" alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
             </div>
 
             <div className="space-y-1">

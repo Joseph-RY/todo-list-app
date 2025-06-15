@@ -56,7 +56,6 @@ export default function GetTask({ task }) {
                 {task.images.map((img) => (
                   <div className="text-center">
                     <Image key={img.id} src={img.imageName} alt={img.imageName} width={96} height={96} className="object-cover rounded-md border" />
-                    <p className="text-xs text-muted-foreground mt-1">ID: {img.id}</p>
                   </div>
                 ))}
               </div>
