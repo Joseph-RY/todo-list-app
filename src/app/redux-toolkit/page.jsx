@@ -1,10 +1,17 @@
+"use client";
+
 import React from "react";
+import AsyncTodo from "./async-todo/async-todo";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const Redux = () => {
   return (
-    <div>
-      <h1>Redux Todo Lists</h1>
-    </div>
+    <Provider store={store}>
+      <div>
+        <AsyncTodo />
+      </div>
+    </Provider>
   );
 };
 
