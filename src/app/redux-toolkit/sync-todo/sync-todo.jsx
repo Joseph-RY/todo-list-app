@@ -1,27 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTodos, deleteTodos, completeTodos } from "../asyncTodoSlice";
+import { deleteTodos, completeTodos } from "../syncTodoSlice";
 import { API_URL } from "@/config/api";
 import { Button } from "@/components/ui/button";
-import AddTask from "@/app/redux-toolkit/async-todo/add-task/add-task";
-import EditTask from "@/app/redux-toolkit/async-todo/edit-task/edit-task";
-import GetTask from "@/app/redux-toolkit/async-todo/get-task/get-task";
-import ImagesPopover from "@/app/redux-toolkit/async-todo/images-popover/images-popover";
+import AddTask from "@/app/redux-toolkit/sync-todo/add-task/add-task";
+import EditTask from "@/app/redux-toolkit/sync-todo/edit-task/edit-task";
+import GetTask from "@/app/redux-toolkit/sync-todo/get-task/get-task";
 
-const AsyncTodo = () => {
-  const data = useSelector((state) => state.asyncTodos.data);
+const SyncTodo = () => {
+  const data = useSelector((state) => state.syncTodos.data);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTodos());
-  }, [dispatch]);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 mt-10">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5">
-        <h2 className="text-2xl font-semibold text-center sm:text-left">Async Todo List</h2>
+        <h2 className="text-2xl font-semibold text-center sm:text-left">Sync Todo List</h2>
         <AddTask />
       </div>
 
@@ -38,11 +33,11 @@ const AsyncTodo = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((e, idx) => (
+            {data.map((e) => (
               <tr key={e.id} className="even:bg-muted/30 hover:bg-muted/40 transition-colors">
                 <td className="px-4 py-3 border-t border-border">№ {e.id}</td>
                 <td className="px-4 py-3 border-t border-border">
-                  <img src={`${API_URL}/images/${e.images[0]?.imageName}`} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
+                  <img src={`${e.images[0]?.imageName}`} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
                 </td>
                 <td className="px-4 py-3 border-t border-border">{e.name}</td>
                 <td className="px-4 py-3 border-t border-border text-muted-foreground">{e.description}</td>
@@ -51,7 +46,7 @@ const AsyncTodo = () => {
                 </td>
                 <td className="px-4 py-3 border-t border-border">
                   <div className="flex justify-center gap-2 flex-wrap">
-                    <Button className="cursor-pointer" variant="secondary" size="sm" onClick={() => dispatch(completeTodos(e.id))}>
+                    <Button variant="secondary" size="sm" onClick={() => dispatch(completeTodos(e.id))}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                         <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                       </svg>
@@ -60,13 +55,11 @@ const AsyncTodo = () => {
                     <EditTask task={e} />
                     <GetTask task={e} />
 
-                    <Button className="cursor-pointer" variant="secondary" size="sm" onClick={() => dispatch(deleteTodos(e.id))}>
+                    <Button variant="secondary" size="sm" onClick={() => dispatch(deleteTodos(e.id))}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                         <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM20.25 5.507v11.561L5.853 2.671c.15-.043.306-.075.467-.094a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93ZM3.75 21V6.932l14.063 14.063L12 18.088l-7.165 3.583A.75.75 0 0 1 3.75 21Z" />
                       </svg>
                     </Button>
-
-                    <ImagesPopover id={e.id} />
                   </div>
                 </td>
               </tr>
@@ -84,7 +77,7 @@ const AsyncTodo = () => {
             </div>
 
             <div>
-              <img src={`${API_URL}/images/${e.images[0]?.imageName}`} alt="TodosImage" className="w-full h-40 object-cover rounded-md" />
+              <img src={`${e.images[0]?.imageName}`} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
             </div>
 
             <div className="space-y-1">
@@ -109,8 +102,6 @@ const AsyncTodo = () => {
                     <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM20.25 5.507v11.561L5.853 2.671c.15-.043.306-.075.467-.094a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93ZM3.75 21V6.932l14.063 14.063L12 18.088l-7.165 3.583A.75.75 0 0 1 3.75 21Z" />
                   </svg>
                 </Button>
-
-                <ImagesPopover id={e.id} />
               </div>
             </div>
           </div>
@@ -120,4 +111,4 @@ const AsyncTodo = () => {
   );
 };
 
-export default AsyncTodo;
+export default SyncTodo;
