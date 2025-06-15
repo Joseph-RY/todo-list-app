@@ -87,7 +87,7 @@ export default function AddTask() {
             <div className="space-y-2">
               <Label htmlFor="images">Image Links</Label>
               <div className="flex gap-2">
-                <Input id="images" type="text" placeholder="https://example.com/image.jpg" value={newImageLink} onChange={(e) => setNewImageLink(e.target.value)} />
+                <Input id="images" type="text" placeholder="/task.webp" value={newImageLink} onChange={(e) => setNewImageLink(e.target.value)} />
                 <Button type="button" onClick={handleAddImageLink}>
                   Add
                 </Button>

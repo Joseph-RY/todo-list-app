@@ -49,18 +49,13 @@ export default function GetTask({ task }) {
             <p className="text-sm text-muted-foreground">Completed:</p>
             <p className="text-base">{task.isCompleted ? "Yes" : "No"}</p>
           </div>
-          {task.images?.length > 0 && (
-            <div>
-              <p className="text-sm text-muted-foreground">Images:</p>
-              <div className="flex gap-2 flex-wrap mt-2">
-                {task.images.map((img) => (
-                  <div className="text-center">
-                    <Image key={img.id} src={img.imageName} alt={img.imageName} width={96} height={96} className="object-cover rounded-md border" />
-                  </div>
-                ))}
+          <div className="flex gap-2">
+            {task.images.map((img) => (
+              <div key={img.id} className="text-center">
+                <Image src={img.imageName} alt={img.imageName} width={96} height={96} className="object-cover rounded-md border" />
               </div>
-            </div>
-          )}
+            ))}
+          </div>
           <div className="flex justify-end">
             <Button variant="outline" onClick={() => setOpen(false)}>
               Close
