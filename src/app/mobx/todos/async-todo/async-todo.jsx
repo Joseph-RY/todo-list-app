@@ -10,7 +10,6 @@ import GetTask from "./get-task/get-task";
 import { Button } from "@/components/ui/button";
 import ImagesPopover from "./image-popover/image-popover";
 
-@observer
 class AsyncTodo extends Component {
   componentDidMount() {
     todoStore.fetchAsyncTodos();
@@ -114,4 +113,4 @@ class AsyncTodo extends Component {
   }
 }
 
-export default AsyncTodo;
+export default observer(AsyncTodo);
