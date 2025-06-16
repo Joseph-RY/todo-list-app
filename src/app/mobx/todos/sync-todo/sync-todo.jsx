@@ -1,0 +1,111 @@
+import React, { Component } from "react";
+import { observer } from "mobx-react";
+import { Button } from "@/components/ui/button";
+
+import AddTask from "./add-task/add-task";
+import EditTask from "./edit-task/edit-task";
+import GetTask from "./get-task/get-task";
+import Image from "next/image";
+import todoStore from "../../store";
+
+class SyncTodo extends Component {
+  render() {
+    const { store } = this.props;
+    const { syncTodos } = store;
+
+    return (
+      <div className="px-4 sm:px-6 lg:px-8 mt-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5">
+          <h2 className="text-2xl font-semibold text-center sm:text-left">Sync Todo List</h2>
+          <AddTask />
+        </div>
+
+        <div className="hidden md:block overflow-x-auto rounded-xl border border-muted shadow-sm">
+          <table className="min-w-[900px] w-full text-left text-sm sm:text-base border-separate border-spacing-0">
+            <thead className="bg-muted/50 text-muted-foreground">
+              <tr>
+                <th className="px-4 py-3 font-medium border-b border-border">ID</th>
+                <th className="px-4 py-3 font-medium border-b border-border">Image</th>
+                <th className="px-4 py-3 font-medium border-b border-border">Name</th>
+                <th className="px-4 py-3 font-medium border-b border-border">Description</th>
+                <th className="px-4 py-3 font-medium text-center border-b border-border">Completed</th>
+                <th className="px-4 py-3 font-medium text-center border-b border-border">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {syncTodos.map((e) => (
+                <tr key={e.id} className="even:bg-muted/30 hover:bg-muted/40 transition-colors">
+                  <td className="px-4 py-3 border-t border-border">№ {e.id}</td>
+                  <td className="px-4 py-3 border-t border-border">
+                    <Image src={e.images[0].imageName} alt="TodosImage" width={72} height={56} className="object-cover rounded-md shadow-sm" />
+                  </td>
+                  <td className="px-4 py-3 border-t border-border">{e.name}</td>
+                  <td className="px-4 py-3 border-t border-border text-muted-foreground">{e.description}</td>
+                  <td className="px-4 py-3 border-t border-border text-center">
+                    <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${e.isCompleted ? "bg-green-300 text-green-800" : "bg-destructive/10 text-destructive"}`}>{e.isCompleted ? "Done" : "Undo"}</span>
+                  </td>
+                  <td className="px-4 py-3 border-t border-border">
+                    <div className="flex justify-center gap-2 flex-wrap">
+                      <Button variant="secondary" size="sm" onClick={() => todoStore.toggleSyncComplete(e.id)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                          <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                        </svg>
+                      </Button>
+                      <EditTask task={e} />
+                      <GetTask taskId={e.id} />
+                      <Button variant="secondary" size="sm" onClick={() => todoStore.deleteSyncTodo(e.id)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                          <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM20.25 5.507v11.561L5.853 2.671c.15-.043.306-.075.467-.094a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93ZM3.75 21V6.932l14.063 14.063L12 18.088l-7.165 3.583A.75.75 0 0 1 3.75 21Z" />
+                        </svg>
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="md:hidden space-y-4">
+          {syncTodos.map((e) => (
+            <div key={e.id} className="rounded-xl border border-border bg-muted/30 p-4 shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-medium text-foreground">ID: {e.id}</h3>
+                <span className={`text-xs px-3 py-1 rounded-full font-medium ${e.isCompleted ? "bg-green-100 text-green-800" : "bg-destructive/10 text-destructive"}`}>{e.isCompleted ? "Done" : "Undo"}</span>
+              </div>
+
+              <div>
+                <Image src={e.images[0].imageName} alt="TodosImage" width={72} height={56} className="object-cover rounded-md shadow-sm" />
+              </div>
+
+              <div className="space-y-1">
+                <p className="font-medium text-foreground">Name: {e.name}</p>
+                <p className="text-sm text-muted-foreground">Description: {e.description}</p>
+              </div>
+
+              <div className="pt-1">
+                <p className="text-sm text-muted-foreground mb-2 font-medium">Actions:</p>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="secondary" size="icon" onClick={() => toggleSyncComplete(e.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                      <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                    </svg>
+                  </Button>
+                  <EditTask task={e} />
+                  <GetTask task={e} />
+                  <Button variant="secondary" size="icon" onClick={() => deleteSyncTodo(e.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                      <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default observer(SyncTodo);

@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { observer } from "mobx-react-lite";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
-import { editTodos } from "@/app/redux-toolkit/stores/syncTodoSlice";
+import { createPortal } from "react-dom";
+import todoStore from "@/app/mobx/store";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
@@ -15,8 +15,7 @@ function CustomDialog({ open, onOpenChange, children }) {
     setMounted(true);
   }, []);
 
-  if (!open) return null;
-  if (!mounted) return null;
+  if (!open || !mounted) return null;
 
   return createPortal(
     <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(false)}>
@@ -28,11 +27,10 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function EditTask({ task }) {
+const EditTask = observer(({ task }) => {
   const [open, setOpen] = useState(false);
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (open) {
@@ -43,12 +41,11 @@ export default function EditTask({ task }) {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    const updatedTask = {
+    todoStore.editAsyncTodo({
       id: task.id,
       name: editName,
       description: editDescription,
-    };
-    dispatch(editTodos(updatedTask));
+    });
     setEditName("");
     setEditDescription("");
     setOpen(false);
@@ -88,4 +85,6 @@ export default function EditTask({ task }) {
       </CustomDialog>
     </div>
   );
-}
+});
+
+export default EditTask;

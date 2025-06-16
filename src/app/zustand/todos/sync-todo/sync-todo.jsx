@@ -23,7 +23,7 @@ const SyncTodo = () => {
       </div>
 
       <div className="hidden md:block overflow-x-auto rounded-xl border border-muted shadow-sm">
-        <table className="min-w-[800px] w-full text-left text-sm sm:text-base border-separate border-spacing-0">
+        <table className="min-w-[900px] w-full text-left text-sm sm:text-base border-separate border-spacing-0">
           <thead className="bg-muted/50 text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium border-b border-border">ID</th>
@@ -38,7 +38,9 @@ const SyncTodo = () => {
             {todos.map((todo) => (
               <tr key={todo.id} className="even:bg-muted/30 hover:bg-muted/40 transition-colors">
                 <td className="px-4 py-3 border-t border-border">№ {todo.id}</td>
-                <td className="px-4 py-3 border-t border-border">{todo.images?.[0]?.imageName ? <Image src={todo.images[0].imageName} alt="TodoImage" width={72} height={56} className="object-cover rounded-md shadow-sm" /> : <div className="w-18 h-14 bg-muted rounded-md" />}</td>
+                <td className="px-4 py-3 border-t border-border">
+                  <img src={todo.images[0]?.imageName} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
+                </td>
                 <td className="px-4 py-3 border-t border-border">{todo.name}</td>
                 <td className="px-4 py-3 border-t border-border text-muted-foreground">{todo.description}</td>
                 <td className="px-4 py-3 border-t border-border text-center">
@@ -71,24 +73,22 @@ const SyncTodo = () => {
               <h3 className="text-base font-medium text-foreground">ID: {todo.id}</h3>
               <span className={`text-xs px-3 py-1 rounded-full font-medium ${todo.isCompleted ? "bg-green-100 text-green-800" : "bg-destructive/10 text-destructive"}`}>{todo.isCompleted ? "Done" : "Undo"}</span>
             </div>
-
-            <div>{todo.images?.[0]?.imageName ? <Image src={todo.images[0].imageName} alt="TodoImage" width={72} height={56} className="object-cover rounded-md shadow-sm" /> : <div className="w-18 h-14 bg-muted rounded-md" />}</div>
-
+            <div>
+              <img src={todo.images[0]?.imageName} alt="TodosImage" className="w-full h-40 object-cover rounded-md" />
+            </div>
             <div className="space-y-1">
               <p className="font-medium text-foreground">Name: {todo.name}</p>
               <p className="text-sm text-muted-foreground">Description: {todo.description}</p>
             </div>
-
             <div className="pt-1">
               <p className="text-sm text-muted-foreground mb-2 font-medium">Actions:</p>
               <div className="flex flex-wrap gap-2">
-                <Button variant="ghost" size="icon" onClick={() => completeTodos(todo.id)} aria-label="Complete Task">
+                <Button variant="secondary" size="icon" onClick={() => completeTodos(todo.id)} aria-label="Complete Task">
                   <Check size={18} />
                 </Button>
-
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="ghost" size="icon" aria-label="View Task Details">
+                    <Button variant="secondary" size="icon" aria-label="View Task Details">
                       <Eye size={18} />
                     </Button>
                   </DialogTrigger>
@@ -102,12 +102,8 @@ const SyncTodo = () => {
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>
-
-                <Button variant="ghost" size="icon" disabled aria-label="Edit Task">
-                  <Edit2 size={18} />
-                </Button>
-
-                <Button variant="ghost" size="icon" onClick={() => deleteTodos(todo.id)} aria-label="Delete Task">
+                <EditTask task={todo} />
+                <Button variant="secondary" size="icon" onClick={() => deleteTodos(todo.id)} aria-label="Delete Task">
                   <Trash2 size={18} />
                 </Button>
               </div>

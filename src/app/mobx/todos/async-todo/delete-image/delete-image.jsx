@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { observer } from "mobx-react-lite";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
-import { deleteImage } from "@/app/redux-toolkit/stores/asyncTodoSlice";
+import todoStore from "@/app/mobx/store";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
@@ -27,15 +27,14 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function DeleteImage() {
+const DeleteImage = observer(() => {
   const [open, setOpen] = useState(false);
   const [imageId, setImageId] = useState("");
-  const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imageId) return;
-    dispatch(deleteImage(imageId));
+    await todoStore.deleteAsyncImage(imageId);
     setImageId("");
     setOpen(false);
   };
@@ -73,4 +72,6 @@ export default function DeleteImage() {
       </CustomDialog>
     </div>
   );
-}
+});
+
+export default DeleteImage;

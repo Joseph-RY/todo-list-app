@@ -2,13 +2,10 @@
 
 import React from "react";
 import { useAtom } from "jotai";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-
 import AddTask from "./add-task/add-task";
 import EditTask from "./edit-task/edit-task";
 import GetTask from "./get-task/get-task";
-
 import { todosAtom, useDeleteTodo, useToggleComplete } from "@/app/jotai/stores/sync-store/sync-store";
 
 const SyncTodo = () => {
@@ -24,7 +21,7 @@ const SyncTodo = () => {
       </div>
 
       <div className="hidden md:block overflow-x-auto rounded-xl border border-muted shadow-sm">
-        <table className="min-w-[800px] w-full text-left text-sm sm:text-base border-separate border-spacing-0">
+        <table className="min-w-[900px] w-full text-left text-sm sm:text-base border-separate border-spacing-0">
           <thead className="bg-muted/50 text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium border-b border-border">ID</th>
@@ -40,7 +37,7 @@ const SyncTodo = () => {
               <tr key={e.id} className="even:bg-muted/30 hover:bg-muted/40 transition-colors">
                 <td className="px-4 py-3 border-t border-border">№ {e.id}</td>
                 <td className="px-4 py-3 border-t border-border">
-                  <Image src={e.images[0]?.imageName || "/default-image.png"} alt="TodosImage" width={72} height={56} className="object-cover rounded-md shadow-sm" />
+                  <img src={e.images[0]?.imageName} alt="TodosImage" className="w-18 h-14 object-cover rounded-md shadow-sm" />
                 </td>
                 <td className="px-4 py-3 border-t border-border">{e.name}</td>
                 <td className="px-4 py-3 border-t border-border text-muted-foreground">{e.description}</td>
@@ -80,7 +77,7 @@ const SyncTodo = () => {
             </div>
 
             <div>
-              <Image src={e.images[0]?.imageName || "/default-image.png"} alt="TodosImage" width={72} height={56} className="object-cover rounded-md shadow-sm" />
+              <img src={e.images[0]?.imageName} alt="TodosImage" className="w-full h-40 object-cover rounded-md" />
             </div>
 
             <div className="space-y-1">
@@ -91,7 +88,7 @@ const SyncTodo = () => {
             <div className="pt-1">
               <p className="text-sm text-muted-foreground mb-2 font-medium">Actions:</p>
               <div className="flex flex-wrap gap-2">
-                <Button variant="ghost" size="icon" onClick={() => toggleComplete(e.id)}>
+                <Button variant="secondary" size="icon" onClick={() => toggleComplete(e.id)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                     <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                   </svg>
@@ -100,7 +97,7 @@ const SyncTodo = () => {
                 <EditTask task={e} />
                 <GetTask task={e} />
 
-                <Button variant="ghost" size="icon" onClick={() => deleteTodo(e.id)}>
+                <Button variant="secondary" size="icon" onClick={() => deleteTodo(e.id)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                     <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM20.25 5.507v11.561L5.853 2.671c.15-.043.306-.075.467-.094a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93ZM3.75 21V6.932l14.063 14.063L12 18.088l-7.165 3.583A.75.75 0 0 1 3.75 21Z" />
                   </svg>

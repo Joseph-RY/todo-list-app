@@ -1,22 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { observer } from "mobx-react-lite";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodos } from "@/app/redux-toolkit/stores/syncTodoSlice";
+import todoStore from "@/app/mobx/store";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!open) return null;
-  if (!mounted) return null;
+  if (!open || !mounted) return null;
 
   return createPortal(
     <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(false)}>
@@ -28,41 +27,32 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function AddTask() {
+const AddTask = observer(() => {
   const [open, setOpen] = useState(false);
   const [addName, setAddName] = useState("");
   const [addDescription, setAddDescription] = useState("");
-  const [imageLinks, setImageLinks] = useState([]);
-  const [newImageLink, setNewImageLink] = useState("");
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.syncTodos.data);
+  const [addImage, setAddImage] = useState([]);
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
 
-    if (!addName.trim() || !addDescription.trim()) return;
+    const formData = new FormData();
+    formData.append("Name", addName);
+    formData.append("Description", addDescription);
+    for (let i = 0; i < addImage.length; i++) {
+      formData.append("Images", addImage[i]);
+    }
 
-    dispatch(
-      addTodos({
-        id: data.length + 3001,
-        name: addName,
-        description: addDescription,
-        images: imageLinks,
-      })
-    );
+    await todoStore.addAsyncTodo(formData);
 
     setAddName("");
     setAddDescription("");
-    setImageLinks([]);
-    setNewImageLink("");
+    setAddImage([]);
     setOpen(false);
   };
 
-  const handleAddImageLink = () => {
-    if (newImageLink.trim()) {
-      setImageLinks((prev) => [...prev, { id: prev.length, imageName: newImageLink.trim() }]);
-      setNewImageLink("");
-    }
+  const handleFileChange = (e) => {
+    setAddImage(Array.from(e.target.files));
   };
 
   return (
@@ -75,30 +65,21 @@ export default function AddTask() {
             <h2 className="text-lg font-semibold">Add New Task</h2>
             <p className="text-sm text-muted-foreground">Fill in the task details and add images.</p>
           </header>
+
           <form onSubmit={handleAdd} className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input id="name" type="text" value={addName} onChange={(e) => setAddName(e.target.value)} required autoFocus />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Input id="description" type="text" value={addDescription} onChange={(e) => setAddDescription(e.target.value)} required />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="images">Image Links</Label>
-              <div className="flex gap-2">
-                <Input id="images" type="text" placeholder="/task.webp" value={newImageLink} onChange={(e) => setNewImageLink(e.target.value)} />
-                <Button type="button" onClick={handleAddImageLink}>
-                  Add
-                </Button>
-              </div>
-              {imageLinks.length > 0 && (
-                <ul className="list-disc pl-5 text-sm text-muted-foreground mt-2">
-                  {imageLinks.map((linkObj, index) => (
-                    <li key={index}>{linkObj.imageName}</li>
-                  ))}
-                </ul>
-              )}
+              <Label htmlFor="images">Images</Label>
+              <Input id="images" type="file" multiple accept="image/*" onChange={handleFileChange} />
             </div>
 
             <div className="flex justify-end gap-2 mt-2">
@@ -112,4 +93,6 @@ export default function AddTask() {
       </CustomDialog>
     </div>
   );
-}
+});
+
+export default AddTask;

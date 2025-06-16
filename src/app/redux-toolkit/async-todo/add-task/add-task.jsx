@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch } from "react-redux";
-import { addTodos } from "@/app/redux-toolkit/asyncTodoSlice";
+import { addTodos } from "@/app/redux-toolkit/stores/asyncTodoSlice";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);

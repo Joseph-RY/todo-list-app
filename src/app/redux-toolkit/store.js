@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import asyncTodoReducer from "./asyncTodoSlice";
-import syncTodoReducer from "./syncTodoSlice";
+import asyncTodoReducer from "./stores/asyncTodoSlice";
+import syncTodoReducer from "./stores/syncTodoSlice";
 
 export const store = configureStore({
   reducer: {

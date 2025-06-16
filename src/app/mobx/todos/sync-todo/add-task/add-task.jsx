@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { observer } from "mobx-react-lite";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodos } from "@/app/redux-toolkit/stores/syncTodoSlice";
+import todoStore from "@/app/mobx/store";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
@@ -15,8 +15,7 @@ function CustomDialog({ open, onOpenChange, children }) {
     setMounted(true);
   }, []);
 
-  if (!open) return null;
-  if (!mounted) return null;
+  if (!open || !mounted) return null;
 
   return createPortal(
     <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(false)}>
@@ -28,28 +27,23 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function AddTask() {
+const AddTask = observer(() => {
   const [open, setOpen] = useState(false);
   const [addName, setAddName] = useState("");
   const [addDescription, setAddDescription] = useState("");
   const [imageLinks, setImageLinks] = useState([]);
   const [newImageLink, setNewImageLink] = useState("");
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.syncTodos.data);
 
   const handleAdd = (e) => {
     e.preventDefault();
-
     if (!addName.trim() || !addDescription.trim()) return;
 
-    dispatch(
-      addTodos({
-        id: data.length + 3001,
-        name: addName,
-        description: addDescription,
-        images: imageLinks,
-      })
-    );
+    todoStore.addSyncTodo({
+      id: Date.now() % 10000,
+      name: addName,
+      description: addDescription,
+      images: imageLinks,
+    });
 
     setAddName("");
     setAddDescription("");
@@ -112,4 +106,6 @@ export default function AddTask() {
       </CustomDialog>
     </div>
   );
-}
+});
+
+export default AddTask;
