@@ -30,13 +30,13 @@ export default function DeleteImage() {
   const [open, setOpen] = useState(false);
   const [imageId, setImageId] = useState("");
 
-  const deleteImageFromTask = useAsyncTodoStore((state) => state.deleteImageFromTask);
+  const deleteImage = useAsyncTodoStore((state) => state.deleteImage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imageId) return;
 
-    await deleteImageFromTask(imageId);
+    await deleteImage(imageId);
 
     setImageId("");
     setOpen(false);

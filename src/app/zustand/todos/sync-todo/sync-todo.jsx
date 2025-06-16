@@ -8,6 +8,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import Image from "next/image";
 import AddTask from "./add-task/add-task";
 import EditTask from "./edit-task/edit-task";
+import GetTask from "./get-task/get-task";
 
 const SyncTodo = () => {
   const todos = useSyncStore((state) => state.data);
@@ -49,23 +50,7 @@ const SyncTodo = () => {
                       <Check size={18} />
                     </Button>
 
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="secondary" size="sm" aria-label="View Task Details">
-                          <Eye size={18} />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                          <DialogTitle className="text-lg font-semibold">{todo.name}</DialogTitle>
-                          <DialogDescription className="text-muted-foreground mt-2">
-                            {todo.description}
-                            {todo.images?.[0]?.imageName && <Image src={todo.images[0].imageName} alt="Task Image" width={300} height={200} className="mt-4 rounded-lg shadow" />}
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
-
+                    <GetTask taskId={todo.id} />
                     <EditTask task={todo} />
 
                     <Button variant="secondary" size="sm" onClick={() => deleteTodos(todo.id)} aria-label="Delete Task">

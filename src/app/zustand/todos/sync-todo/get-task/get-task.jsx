@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
-import { API_URL } from "@/config/api";
+import Image from "next/image";
+import { useSyncStore } from "@/app/zustand/stores/sync-store/store"; 
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
@@ -24,8 +25,9 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function GetTask({ task }) {
+export default function GetTask({ taskId }) {
   const [open, setOpen] = useState(false);
+  const task = useSyncStore((state) => state.data.find((t) => t.id === taskId));
 
   if (!task) return null;
 
@@ -40,31 +42,30 @@ export default function GetTask({ task }) {
       <CustomDialog open={open} onOpenChange={setOpen}>
         <div className="space-y-4">
           <h2 className="text-lg font-semibold">Task Details</h2>
+
           <div>
             <p className="text-sm text-muted-foreground">Name:</p>
             <p className="text-base">{task.name}</p>
           </div>
+
           <div>
             <p className="text-sm text-muted-foreground">Description:</p>
             <p className="text-base">{task.description}</p>
           </div>
+
           <div>
             <p className="text-sm text-muted-foreground">Completed:</p>
             <p className="text-base">{task.isCompleted ? "Yes" : "No"}</p>
           </div>
-          {task.images?.length > 0 && (
-            <div>
-              <p className="text-sm text-muted-foreground">Images:</p>
-              <div className="flex gap-2 flex-wrap mt-2">
-                {task.images.map((img) => (
-                  <div key={img.id} className="text-center">
-                    <img src={`${API_URL}/images/${img.imageName}`} alt={img.imageName} className="w-24 h-24 object-cover rounded-md border" />
-                    <p className="text-xs text-muted-foreground mt-1">ID: {img.id}</p>
-                  </div>
-                ))}
+
+          <div className="flex gap-2">
+            {task.images.map((img) => (
+              <div key={img.id} className="text-center">
+                <Image src={img.imageName} alt={img.imageName} width={96} height={96} className="object-cover rounded-md border" />
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+
           <div className="flex justify-end">
             <Button variant="outline" onClick={() => setOpen(false)}>
               Close

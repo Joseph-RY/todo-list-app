@@ -30,8 +30,7 @@ export default function AddImage({ id }) {
   const [open, setOpen] = useState(false);
   const [images, setImages] = useState([]);
 
-  // Вытягиваем из zustand экшен для добавления изображений к таске
-  const addImageToTask = useAsyncTodoStore((state) => state.addImageToTask);
+  const addImage = useAsyncTodoStore((state) => state.addImage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +39,7 @@ export default function AddImage({ id }) {
     const formData = new FormData();
     images.forEach((img) => formData.append("images", img));
 
-    await addImageToTask(id, formData);
+    await addImage({ id, formData });
 
     setImages([]);
     setOpen(false);

@@ -3,11 +3,11 @@
 import React, { useEffect } from "react";
 import { useAsyncTodoStore } from "../../stores/async-store/store";
 import { API_URL } from "@/config/api";
-import GetTask from "./get-task/get-task";
 import AddTask from "./add-task/add-task";
 import EditTask from "./edit-task/edit-task";
 import { Button } from "@/components/ui/button";
 import ImagesPopover from "./images-popover/images-popover";
+import GetTask from "./get-task/get-task";
 
 const AsyncTodo = () => {
   const { data, getTodos, deleteTodos, completeTodos } = useAsyncTodoStore();
