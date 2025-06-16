@@ -7,7 +7,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import AddImage from "../add-image/add-image";
 import DeleteImage from "../delete-image/delete-image";
 
-@observer
 class ImagesPopover extends Component {
   render() {
     const { id, store } = this.props;
@@ -36,4 +35,4 @@ class ImagesPopover extends Component {
   }
 }
 
-export default ImagesPopover;
+export default observer(ImagesPopover);
