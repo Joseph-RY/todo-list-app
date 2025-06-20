@@ -53,16 +53,16 @@ const AsyncTodo = observer(() => {
                     <EditTask task={e} />
                     <Button className="cursor-pointer h-9" variant="secondary" size="icon" onClick={() => todoStore.deleteAsyncTodo(e.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18ZM20.25 5.507v11.561L5.853 2.671c.15-.043.306-.075.467-.094a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93ZM3.75 21V6.932l14.063 14.063L12 18.088l-7.165 3.583A.75.75 0 0 1 3.75 21Z" />
+                        <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
                       </svg>
                     </Button>
                     <GetTask task={e} />
+                    <ImagesPopover id={e.id} task={e} />
                     <Button className="cursor-pointer h-9" variant="secondary" size="icon" onClick={() => todoStore.toggleAsyncComplete(e.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                         <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                       </svg>
                     </Button>
-                    <ImagesPopover id={e.id} task={e} />
                   </div>
                 </td>
               </tr>
@@ -98,12 +98,12 @@ const AsyncTodo = observer(() => {
                   </svg>
                 </Button>
                 <GetTask task={e} />
+                <ImagesPopover id={e.id} task={e} />
                 <Button className="cursor-pointer h-9" variant="secondary" size="icon" onClick={() => todoStore.toggleAsyncComplete(e.id)}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                     <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                   </svg>
                 </Button>
-                <ImagesPopover id={e.id} task={e} />
               </div>
             </div>
           </div>
