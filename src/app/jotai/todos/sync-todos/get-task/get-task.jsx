@@ -18,7 +18,7 @@ function CustomDialog({ open, onOpenChange, children }) {
   if (!open || !mounted) return null;
 
   return createPortal(
-    <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(false)}>
+    <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(null)}>
       <div className="bg-background rounded-lg p-6 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

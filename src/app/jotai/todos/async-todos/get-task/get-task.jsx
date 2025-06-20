@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { API_URL } from "@/config/api";
@@ -8,21 +8,16 @@ import { useAtom } from "jotai";
 import { openTaskIdAtom } from "@/app/jotai/stores/async-store/async-store";
 
 function CustomDialog({ open, onOpenChange, children }) {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!open || !mounted) return null;
 
   return createPortal(
-    <div
-      aria-modal="true"
-      role="dialog"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-      onClick={() => onOpenChange(null)} 
-    >
+    <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => onOpenChange(null)}>
       <div className="bg-background rounded-lg p-6 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
@@ -34,7 +29,7 @@ function CustomDialog({ open, onOpenChange, children }) {
 export default function GetTask({ task }) {
   const [openTaskId, setOpenTaskId] = useAtom(openTaskIdAtom);
 
-  const open = openTaskId === task.id; 
+  const open = openTaskId === task.id;
   return (
     <div>
       <Button className="cursor-pointer h-9" variant="secondary" size="sm" onClick={() => setOpenTaskId(task.id)}>
@@ -65,7 +60,6 @@ export default function GetTask({ task }) {
                 {task.images.map((img) => (
                   <div key={img.id} className="text-center">
                     <img src={`${API_URL}/images/${img.imageName}`} alt={img.imageName} className="w-24 h-24 object-cover rounded-md border" />
-                    <p className="text-xs text-muted-foreground mt-1">ID: {img.id}</p>
                   </div>
                 ))}
               </div>

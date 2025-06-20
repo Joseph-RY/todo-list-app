@@ -56,7 +56,6 @@ export default function GetTask({ task }) {
                 {task.images.map((img) => (
                   <div className="text-center">
                     <img key={img.id} src={`${API_URL}/images/${img.imageName}`} alt={img.imageName} className="w-24 h-24 object-cover rounded-md border" />
-                    <p className="text-xs text-muted-foreground mt-1">ID: {img.id}</p>
                   </div>
                 ))}
               </div>

@@ -6,7 +6,7 @@ import AddImage from "../add-image/add-image";
 import DeleteImage from "../delete-image/delete-image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const ImagesPopover = ({ id }) => {
+const ImagesPopover = ({ id, task }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -23,7 +23,7 @@ const ImagesPopover = ({ id }) => {
         </div>
         <div className="border-t pt-4">
           <h3 className="text-sm font-medium mb-2 text-muted-foreground">Delete Image</h3>
-          <DeleteImage />
+          <DeleteImage task={task} />
         </div>
       </PopoverContent>
     </Popover>

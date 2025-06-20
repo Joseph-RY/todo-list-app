@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAsyncTodoStore } from "@/app/zustand/stores/async-store/store";
+import { API_URL } from "@/config/api";
 
 function CustomDialog({ open, onOpenChange, children }) {
   const [mounted, setMounted] = useState(false);
@@ -26,7 +27,7 @@ function CustomDialog({ open, onOpenChange, children }) {
   );
 }
 
-export default function DeleteImage() {
+export default function DeleteImage({ task }) {
   const [open, setOpen] = useState(false);
   const [imageId, setImageId] = useState("");
 
@@ -56,6 +57,19 @@ export default function DeleteImage() {
           <header>
             <h2 className="text-lg font-semibold">Delete Image</h2>
             <p className="text-sm text-muted-foreground">Enter the image ID to delete it.</p>
+            {task.images?.length > 0 && (
+              <div>
+                <p className="text-sm text-muted-foreground">Images:</p>
+                <div className="flex gap-2 flex-wrap mt-2">
+                  {task.images.map((img) => (
+                    <div key={img.id} className="text-center">
+                      <img src={`${API_URL}/images/${img.imageName}`} alt={img.imageName} className="w-24 h-24 object-cover rounded-md border" />
+                      <p className="text-xs text-muted-foreground mt-1">ID: {img.id}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </header>
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
             <div className="space-y-2">
