@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTodos, completeTodos } from "../stores/syncTodoSlice";
+import { completeTodos, deleteTodos } from "../../stores/syncTodoSlice";
+import AddTask from "./add-task/add-task";
+import EditTask from "./edit-task/edit-task";
+import GetTask from "./get-task/get-task";
 import { Button } from "@/components/ui/button";
-import AddTask from "@/app/redux-toolkit/sync-todo/add-task/add-task";
-import EditTask from "@/app/redux-toolkit/sync-todo/edit-task/edit-task";
-import GetTask from "@/app/redux-toolkit/sync-todo/get-task/get-task";
 
 const SyncTodo = () => {
   const data = useSelector((state) => state.syncTodos.data);

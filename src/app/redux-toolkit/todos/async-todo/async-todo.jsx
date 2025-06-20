@@ -2,13 +2,13 @@
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTodos, deleteTodos, completeTodos } from "../stores/asyncTodoSlice";
 import { API_URL } from "@/config/api";
 import { Button } from "@/components/ui/button";
-import AddTask from "@/app/redux-toolkit/async-todo/add-task/add-task";
-import EditTask from "@/app/redux-toolkit/async-todo/edit-task/edit-task";
-import GetTask from "@/app/redux-toolkit/async-todo/get-task/get-task";
-import ImagesPopover from "@/app/redux-toolkit/async-todo/images-popover/images-popover";
+import AddTask from "./add-task/add-task";
+import { completeTodos, deleteTodos, getTodos } from "../../stores/asyncTodoSlice";
+import EditTask from "./edit-task/edit-task";
+import GetTask from "./get-task/get-task";
+import ImagesPopover from "./images-popover/images-popover";
 
 const AsyncTodo = () => {
   const data = useSelector((state) => state.asyncTodos.data);

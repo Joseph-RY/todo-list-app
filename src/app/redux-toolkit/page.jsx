@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { Button } from "@/components/ui/button";
-import AsyncTodo from "./async-todo/async-todo";
-import SyncTodo from "./sync-todo/sync-todo";
+import AsyncTodo from "./todos/async-todo/async-todo";
+import SyncTodo from "./todos/sync-todo/sync-todo";
 import { store } from "./store";
 
 const Redux = () => {

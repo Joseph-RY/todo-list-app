@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import { Button } from "@/components/ui/button";
 import AddImage from "../add-image/add-image";
 import DeleteImage from "../delete-image/delete-image";
-import { Button } from "../../../../components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const ImagesPopover = ({ id }) => {
