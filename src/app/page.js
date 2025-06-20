@@ -10,7 +10,7 @@ const data = [
 
 const Home = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-[80vh] px-4">
+    <main className="flex flex-col items-center justify-center px-4">
       <div className="text-center py-14">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 to-neutral-700 dark:from-neutral-100 dark:to-neutral-400">
           Your Guide to React State Managers
@@ -21,7 +21,7 @@ const Home = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 gap-6 max-w-md w-full px-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-6 max-w-md md:max-w-xl xl:max-w-md w-full px-2">
         {data.map((e) => (
           <Link
             key={e.id}
