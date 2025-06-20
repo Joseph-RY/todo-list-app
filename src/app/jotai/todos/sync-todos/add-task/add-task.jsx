@@ -28,7 +28,7 @@ export default function AddTask() {
     if (!name.trim() || !description.trim()) return;
 
     addTodo({
-      id: Date.now(),
+      id: Date.now() % 10000,
       name,
       description,
       images: imageLinks,

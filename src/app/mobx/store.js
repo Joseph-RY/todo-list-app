@@ -6,7 +6,7 @@ class TodoStore {
   syncTodos = [
     {
       id: 3001,
-      isCompleted: false,
+      isCompleted: true,
       images: [{ id: 5011, imageName: "/task.webp" }],
       name: "Morning Routine",
       description: "Go for a walk and do meditation.",
@@ -20,7 +20,7 @@ class TodoStore {
     },
     {
       id: 3003,
-      isCompleted: false,
+      isCompleted: true,
       images: [{ id: 5013, imageName: "/task.webp" }],
       name: "Read Book",
       description: "Finish the last two chapters of 'Atomic Habits'.",
